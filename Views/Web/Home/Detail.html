@@ -1,0 +1,475 @@
+{% extends '../Layout/_Layout1.html'%}
+
+{% block css %}
+    <link href="/Statics/Web/Css/detail.css" rel="stylesheet" />
+{% end %}
+
+{% block menu_slider %}
+    <div class="header-menu">
+
+    </div>
+    <div class="header-slider">
+
+    </div>
+{% end %}
+
+{% block content %}
+<div class="pg-content clearfix">
+    <div class="container">
+
+        <div class="product-breadcrumb mt20">
+            <h3>
+                <a>首页</a>
+                <a> > 品牌</a>
+                <span> > 规格</span>
+            </h3>
+        </div>
+
+        <div class="product-info">
+
+            <div class="info-preview left">
+                <div id='img-zoomin' class="img-zoomin">
+                    <div id='zoom_small_box' class='small-box'>
+                        <div id="zoom_small_box_mark" class='mark'></div>
+                        <div id='zoom_small_box_floatbox' class='float-box'></div>
+                        <img width='350' height='350' src="/{{product_dict['product_detail']['img']}}" />
+                    </div>
+                    <div id="zoom_big_box" class='big-box'>
+                        <img width='800' height='800' src="/{{product_dict['product_detail']['img']}}" />
+                    </div>
+                </div>
+
+                <div class="img-option ">
+                    <a class="arrow-left left"><</a>
+                    <ul>
+                        <li>老男孩</li>
+                        <li>老男孩</li>
+                        <li>老男孩</li>
+                        <li>老男孩</li>
+                        <li>老男孩</li>
+                    </ul>
+                    <a class="arrow-right right">></a>
+                </div>
+
+            </div>
+
+            <div class="info-content left">
+                <div class='content-product-title'>
+                    <h2>{{product_dict['product_detail']['title']}}</h2>
+                </div>
+
+                <div class='content-product left'>
+                    <div
+                            id="product_summary"
+                            price-id="{{product_dict['price_detail']['nid']}}"
+                            price-standard="{{product_dict['price_detail']['standard']}}"
+                            price="{{product_dict['price_detail']['selling_price']}}"
+                            product-img="{{product_dict['product_detail']['img']}}"
+                            product-title = "{{product_dict['product_detail']['title']}}">
+                    </div>
+                    <ul class='summary'>
+                        <li>
+                            <div class='dt'>
+                                特&nbsp;卖&nbsp;价：
+                            </div>
+                            <div class='dd'>
+                                <strong class="jred font25">￥{{product_dict['price_detail']['selling_price']}}</strong>
+                            </div>
+                        </li>
+                        <li>
+                            <div class='dt'>
+                                市&nbsp;场&nbsp;价：
+                            </div>
+                            <div class='dd'>
+                                <del id="page_maprice">￥{{product_dict['price_detail']['price']}}</del>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class='dt'>
+                                规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
+                            </div>
+                            <div class='dd'>
+                                <strong class="jred font25">￥{{product_dict['price_detail']['standard']}}</strong>
+                            </div>
+                        </li>
+                        <li>
+                            <div class='dt'>
+                                可选规格：
+                            </div>
+                            <div class='dd'>
+                                <select onchange="ChangeStandard(this);">
+                                    {% for item in product_dict['price_list'] %}
+                                        {% if item['price_id'] == product_dict['price_detail']['nid']%}
+                                            <option selected="selected" value="/Detail-{{item['product_id']}}-{{item['price_id']}}.html">{{item['standard']}} - ￥{{item['selling_price']}}</option>
+                                        {% else %}
+                                            <option value="/Detail-{{item['product_id']}}-{{item['price_id']}}.html">{{item['standard']}} - ￥{{item['selling_price']}}</option>
+                                        {% end %}
+                                    {% end %}
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class='summary'>
+                        <li>说明：预定30分钟内 {{product_dict['product_detail']['name']}}会与您联系，并发货和售后服务。</li>
+                    </ul>
+
+                    <ul class='summary' style='border-top: 1px dotted #ddd;'>
+                        <li>
+                            <div class='dt'>
+                                购买数量：
+                            </div>
+                            <div class='dd'>
+
+                                <div class="quantity-bg left clearfix">
+                                    <div class="minus left">-</div>
+                                    <div class="count left">
+                                        <input id="product_quantity" type="number" value="1">
+                                    </div>
+                                    <div class="plus left">+</div>
+                                </div>
+
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class='dt'>
+                                &nbsp;
+                            </div>
+                            <div class='dd'>
+                                <input onclick="Buy(this);" class='reserve' type='button' name='reserve' value='预&nbsp;&nbsp;&nbsp;&nbsp;定' />
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class='content-merchant right'>
+                    <div class='merchant-container'>
+                        <dl id="seller">
+                            <dt>卖　　家：</dt>
+                            <dd>{{product_dict['product_detail']['name']}}</dd>
+                        </dl>
+                        <dl><dt>公司名称：</dt><dd>{{product_dict['product_detail']['name']}}</dd></dl>
+                        <dl class='no-border-tp'>
+                            <dt>联系电话：</dt>
+                            <dd>{{product_dict['product_detail']['business_phone']}}</dd>
+                        </dl>
+                        <dl class='no-border-tp'>
+                            <dt>联系手机：</dt>
+                            <dd>{{product_dict['product_detail']['business_mobile']}}</dd>
+                        </dl>
+                        <dl class='border-bt'>
+                            <dt style="margin-bottom: 10px;">在线客服：</dt>
+                            <dd>
+                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={{product_dict['product_detail']['qq']}}&site=qq&menu=yes">
+                                    <img border="0" src="/Statics/Web/Images/qq.png" alt="联系客服" title="联系客服"/></a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="product-detail">
+
+            <div class="detail-left left">
+
+                <div class="simple-group">
+                    <h2 class="title">热门推荐</h2>
+                    <ul class="body">
+                        <li class="first">
+                            <h4>1</h4>
+                        </li>
+                        <li>
+                            <h4>2</h4>
+                        </li>
+                        <li>
+                            <h4>3</h4>
+                        </li>
+                        <li>
+                            <h4>4</h4>
+                        </li>
+                        <li>
+                            <h4>5</h4>
+                        </li>
+                        <li>
+                            <h4>6</h4>
+                        </li>
+                        <li>
+                            <h4>7</h4>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="detail-right left">
+
+
+                <div class='tab-menu-box-2'>
+                    <div id="detail-navigation-float" class="float-title">
+                        <div id="detail-navigation-float-title" class="title">
+                            <a href="#standard" >规格参数</a>
+                            <a href="#detail" >商品详细</a>
+                            <a href="#comment" >客户评价</a>
+
+                        </div>
+                    </div>
+
+                    <div id="detail-navigation-title" class="title">
+                        <a href="#standard" >规格参数</a>
+                        <a href="#detail" >商品详细</a>
+                        <a href="#comment" >客户评价</a>
+
+                    </div>
+                </div>
+
+
+                <div id='standard' class="content">
+                    <div class="guige mt10" >
+                        <table class="guige-table">
+                            <tr>
+                                <th colspan="2" class="title f14">基本信息</th>
+                            </tr>
+                             {% for item in product_dict['detail_list']%}
+                            <tr>
+                                <td class="body-left">{{item['name']}}</td>
+                                <td class="body-right">{{item['value']}}</td>
+                            </tr>
+                            {% end %}
+
+                        </table>
+                    </div>
+                </div>
+
+                <div id="detail" class="mt20">
+                    {% for item in product_dict['image_list']%}
+                        <img style="width: 890px;" src="/{{item['img']}}">
+                    {% end %}
+                </div>
+
+                <div id="comment">
+                    <div class='group-box-1 mt20'>
+                        <div class='title'><span class='title-font'>用户评价</span></div>
+                        <div class='body pt20 pb20'>
+                            <table class='pingjia-tb'>
+                                <tbody>
+                                <tr>
+                                    <td class='td1'>
+                                        <strong>{{ product_dict['comment_count']['fine_percent']}} % </strong>
+                                        <span>用户满意</span>
+                                    </td>
+                                    <td class='td2'>
+                                        <div class="bar_box">&emsp;满意<span class="bar"><span class="in" style="width:{{product_dict['comment_count']['fine_percent']}}%"></span></span>{{product_dict['comment_count']['fine_percent']}}%</div>
+                                        <div class="bar_box">不满意<span class="bar"><span class="in" style="width:{{product_dict['comment_count']['no_fine_percent']}}%"></span></span>{{product_dict['comment_count']['no_fine_percent']}}%</div>
+                                    </td>
+                                    <td class='td3'>
+                                        <a href="http://www.meilele.com/article_cat-6/article-9931.html" target="_blank" class="red">什么是金币？</a>
+                                        <br />
+                                        写评价，赢金币！前5名双倍哟！
+                                        <br />
+                                        秀美家，更多金币轻松拿~
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class='comment-box'>
+                        <div class='title'>
+                            <a href="javascript:void(0);" class="current" data-slash="high">全部评价({{product_dict['comment_count']['total']}})</a>
+                            <a href="javascript:void(0);" data-slash="high">满意({{product_dict['comment_count']['fine']}})</a>
+                            <a href="javascript:void(0);" data-slash="high">不满意({{product_dict['comment_count']['no_fine']}})</a>
+                        </div>
+                        <div class='body'>
+                            <table class='table'>
+                                <tbody>
+                                    {% for item in product_dict['comment_list']%}
+                                    <tr>
+                                        <td class='td1'>
+                                            <div class='logo'>
+                                                <img src="/Statics/Web/Images/level2.jpg" width="60" height="60">
+                                            </div>
+                                            <div class='info'>
+                                                <span>{{item['username']}}</span>
+                                            </div>
+                                        </td>
+                                        <td class='td2'>
+                                            <div class="in-title">
+                                                <div class='left'><span>*****</span></div>
+                                                <div class='right'>{{item['ctime']}} 发布“评价”</div>
+                                                <div class='clearfix'></div>
+                                            </div>
+                                            <div class="in-content">
+                                                {{item['content']}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% end %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% end %}
+
+
+{% block js %}
+<script>
+    //页面加载完毕后执行
+    window.onload = function () {
+
+        ScrollPosition();
+        ZoomIn();
+    };
+
+    function ZoomIn() {
+        var $imgZoomin = document.getElementById("img-zoomin");
+
+        var $smallBox = document.getElementById("zoom_small_box");
+        var $smallBox_mark = document.getElementById("zoom_small_box_mark");
+        var $smallBox_floatbox = document.getElementById("zoom_small_box_floatbox");
+
+        var $bigBox = document.getElementById("zoom_big_box");
+        var $bigBoxImage = $bigBox.getElementsByTagName("img")[0];
+
+        $smallBox_mark.onmouseover = function () {
+            $smallBox_floatbox.style.display = "block";
+            $bigBox.style.display = "block";
+        };
+
+        $smallBox_mark.onmouseout = function () {
+            $smallBox_floatbox.style.display = "none";
+            $bigBox.style.display = "none";
+        };
+
+        $smallBox_mark.onmousemove = function (e) {
+
+            var _event = e || window.event;  //兼容多个浏览器的event参数模式
+
+            var float_box_width = $smallBox_floatbox.offsetWidth;
+            var float_box_height = $smallBox_floatbox.offsetHeight;
+            var float_box_width_half = float_box_width / 2;
+            var float_box_height_half = float_box_height / 2;
+
+            var small_box_width = $imgZoomin.offsetWidth;
+            var small_box_height = $imgZoomin.offsetHeight;
+
+            var mouse_left = _event.clientX + document.body.scrollLeft - $imgZoomin.offsetLeft - float_box_width_half;
+            var mouse_top = _event.clientY + document.body.scrollTop - $imgZoomin.offsetTop - float_box_height_half;
+
+
+
+            if (mouse_left < 0) {
+                mouse_left = 0;
+            } else if (mouse_left > small_box_width - float_box_width) {
+                mouse_left = small_box_width - float_box_width;
+            }
+            if (mouse_top < 0) {
+                mouse_top = 0;
+            } else if (mouse_top > small_box_height - float_box_height) {
+                mouse_top = small_box_height - float_box_height;
+            }
+
+            $smallBox_floatbox.style.left = mouse_left + "px";
+            $smallBox_floatbox.style.top = mouse_top + "px";
+
+            var percentX = ($bigBoxImage.offsetWidth - $bigBox.offsetWidth) / (small_box_width - float_box_width);
+            var percentY = ($bigBoxImage.offsetHeight - $bigBox.offsetHeight) / (small_box_height - float_box_height);
+
+            $bigBoxImage.style.left = -percentX * mouse_left + "px";
+            $bigBoxImage.style.top = -percentY * mouse_top + "px";
+        }
+    }
+
+    function ChangeTab(title, body) {
+        $(title).children().bind("click", function () {
+            $menu = $(this);
+            $content = $(body).find('div[content="' + $(this).attr("content-to") + '"]');
+            $menu.addClass('current').siblings().removeClass('current');
+            $content.removeClass('hide').siblings().addClass('hide');
+        });
+    }
+
+    function ScrollPosition() {
+
+        $(window).scroll(function () {
+            var $temp = document.getElementById("detail-navigation-title");
+            var $float = document.getElementById("detail-navigation-float");
+            var distance = $temp.offsetTop - $(window).scrollTop();
+
+            if (distance > 0) {
+                $float.style.display = "none";
+
+            } else {
+                $float.style.display = "block";
+            }
+        });
+
+    }
+
+    function ChangeStandard(ths){
+        var v = $(ths).val();
+        location.href = v;
+    }
+
+    function Buy(ths){
+        var $summery = $('#product_summary');
+        var count = $('#product_quantity').val();
+        var jd_buy_cookie = $.cookie('jd_buy_list');
+
+        if(jd_buy_cookie){
+            var buy_list = JSON.parse(jd_buy_cookie);
+            var exist = false;
+            $.each(buy_list, function(k,v){
+                if(v.price_id == $summery.attr('price-id')){
+                    buy_list[k].count = parseInt(buy_list[k].count) + parseInt(count);
+                    exist = true;
+                    return false;
+                }
+            });
+            if(!exist){
+                var temp = {
+                    'count': count,
+                    'price_id': $summery.attr('price-id'),
+                    'price_standard': $summery.attr('price-standard'),
+                    'price': $summery.attr('price'),
+                    'product_img': $summery.attr('product-img'),
+                    'product_title': $summery.attr('product-title')
+                };
+                buy_list.push(temp)
+            }
+            var buy_str = JSON.stringify(buy_list);
+            $.cookie('jd_buy_list', buy_str);
+        }else{
+            // 序列化写入cookie中
+            var buy_list = [{
+                'count': count,
+                'price_id': $summery.attr('price-id'),
+                'price_standard': $summery.attr('price-standard'),
+                'price': $summery.attr('price'),
+                'product_img': $summery.attr('product-img'),
+                'product_title': $summery.attr('product-title')
+            }];
+            var buy_str = JSON.stringify(buy_list);
+            $.cookie('jd_buy_list', buy_str);
+        }
+
+    }
+
+</script>
+{% end %}
+

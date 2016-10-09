@@ -1,0 +1,104 @@
+{% extends '../Layout/_layout.html' %}
+
+{% block crumbs %}
+JD自营 / 产品管理 / 产品详细信息
+{% end %}
+
+{% block content %}
+
+<div id="chart" style="height:300px;"></div>
+
+<div>
+    <h1>详细信息</h1>
+    ...
+</div>
+
+<script type="text/javascript" src="/Statics/Admin/Plugins/highstock/js/highstock.js"></script>
+<script>
+
+    $(function () {
+        Highcharts.setOptions({ global: { useUTC: false } });
+        InitMenu();
+        LoadChart('chart');
+    });
+
+    /*
+    初始化左侧菜单
+    */
+    function InitMenu(){
+        $('#aa').accordion('select',2);
+        $('#jd_menu_product').addClass('active');
+    }
+
+    function LoadChart(id){
+        var config  = {
+
+            chart: {
+                renderTo: id
+            },
+            credits:{
+                text: 'Jd商城',
+                href: '#'
+            },
+            rangeSelector: {
+                selected: 5,
+                inputEnabled: false
+            },
+            tooltip: {
+                xDateFormat: "%Y-%m-%d",
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+                valueDecimals: 1
+            },
+            legend: {
+                enabled: true,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                useHTML: false
+            },
+            yAxis : {
+                opposite: false,
+                labels: {
+                    formatter: function () {
+                        //return (this.value /10000) + 'w';
+                        return this.value;
+                    }
+                }
+            },
+            xAxis: {
+                type: 'datetime',
+                labels: {
+                    step: 2,
+                    formatter: function () {
+                        return Highcharts.dateFormat('%Y-%m-%d', this.value);
+                    }
+                }
+            },
+            series: [
+                {'name':'pv', 'data': [[1473903058000,1 ], [1473903158000,2 ]]},
+                {'name':'uv', 'data': [[1473903058000,3 ], [1473903158000,4 ]]}
+            ]
+        };
+
+        $.ajax({
+            url: 'JdProductView.html',
+            type: 'GET',
+            data: {product_id: '{{product_id}}' },
+            dataType: 'json',
+            success: function(data){
+                if(data.status){
+                    config['series'] = data.data;
+                    new Highcharts.StockChart(config);
+                }else{
+                    $.messager.alert('PUV获取失败', data.summary, 'warning');
+                }
+
+            },
+            error: function () {
+
+            }
+        })
+    }
+</script>
+
+{% end %}

@@ -1,0 +1,302 @@
+{% extends '../Layout/_layout.html' %}
+
+{% block crumbs %}
+JD自营 / 产品管理 / 创建产品
+{% end %}
+
+{% block content %}
+<style>
+
+    .summary-error{
+        max-width: 350px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px;
+        background-color: indianred;
+        color: #ffffff;
+    }
+    .hide{
+        display: none;
+    }
+
+    .p10-group{
+        width: 100%;
+        line-height: 30px;
+    }
+    .p10-group .label{
+        float: left;
+        padding: 10px;
+        min-width: 120px;
+        text-align: right;
+
+
+    }
+    .p10-group .input{
+        float: left;
+        padding: 10px;
+        min-width: 240px;
+        max-width: 680px;
+        position: relative;
+
+    }
+
+    .p10-group .input .text{
+        min-width: 200px;
+        min-height: 20px;
+    }
+    .p10-group .input span{
+        position: absolute;
+        top: 30px;
+        left: 10px;
+        color: red;
+    }
+    .btn{
+        padding: 5px 20px;
+        display: inline-block;
+        background-color: #0052A3;
+        color: #ffffff;
+    }
+    .big-pre-img img{
+        width: 200px;
+        height: 180px;
+    }
+
+    .detail-pre-img{
+        height: 180px;
+        min-width:500px;
+        border: 1px solid #dddddd;
+    }
+
+    .detail-pre-img-item{
+        float: left;
+        width: 200px;
+        height: 180px;
+    }
+    .detail-pre-img-item img{
+        width: 200px;
+        height: 180px;
+    }
+    .add-detail{
+        padding: 0 8px;display: inline-block;background-color: #0088CC;color: #ffffff;
+        cursor: pointer;
+    }
+    .remove-detail{
+        padding: 0 8px;background-color: indianred;color: #ffffff;
+        cursor: pointer;
+    }
+    .detail-item{
+        width: 300px;
+        height: 28px;
+        margin-top: 8px;
+    }
+</style>
+
+<div class="clearfix" id="container">
+    <div class="p10-group clearfix">
+        <div class="label">商品标题：</div>
+        <div class="input">
+            <input type="text"  name="title" class="text" style="width: 500px" />
+        </div>
+    </div>
+    <div class="p10-group clearfix">
+        <div class="label">详细大图：</div>
+        <div class="input">
+            <form name="form" action="UploadImg.html" method="POST"  enctype="multipart/form-data" >
+                <input type="file" name="img" onchange="UploadImage(this,1)" />
+            </form>
+        </div>
+    </div>
+    <div class="p10-group clearfix">
+        <div class="label">预览：</div>
+        <div class="input">
+            <div class="big-pre-img" id="big_detail_pre_img" style="height: 180px; width: 200px;border: 1px solid #dddddd;">
+
+            </div>
+        </div>
+    </div>
+    <hr />
+     <div class="p10-group clearfix">
+        <div class="label">商品详细：</div>
+        <div class="input">
+            <div onclick="AddDetail(this);" class="add-detail">+</div>
+            <div>
+                标题+内容：<input name="detail_list" class="detail-item" type="text" placeholder="标题+内容" />
+            </div>
+        </div>
+    </div>
+    <hr />
+     <div class="p10-group clearfix">
+        <div class="label">商品图片介绍：</div>
+        <div class="input">
+            <form name="form" action="UploadImg.html" method="POST"  enctype="multipart/form-data" >
+                <input type="file" name="img" onchange="UploadImage(this,2)" />
+            </form>
+        </div>
+    </div>
+    <div class="p10-group clearfix">
+        <div class="label">预览(双击删除)：</div>
+        <div class="input">
+            <div id="detail_pre_img"  class="detail-pre-img clearfix">
+
+            </div>
+        </div>
+    </div>
+    <div class="p10-group clearfix">
+        <div class="label"></div>
+        <div class="input">
+            <a onclick="DoSubmit();" class="btn">提交</a>
+        </div>
+    </div>
+</div>
+
+<iframe id='upload_img_iframe' name='upload_img_iframe' src=""  class="hide"></iframe>
+
+<script>
+
+    $(function(){
+        $('#detail_pre_img').delegate('img', 'dblclick',function(){
+            $(this).parent().remove();
+        })
+    });
+    /*
+    上传图片
+    */
+    function UploadImage(ths,type){
+        if (type == 1){
+            document.getElementById('upload_img_iframe').onload = UploadBigImageComplete;
+        }else{
+            document.getElementById('upload_img_iframe').onload = UploadImageComplete;
+        }
+        $(ths).parent()[0].target = 'upload_img_iframe';
+        $(ths).parent()[0].submit();
+    }
+    /*
+    删除大图成功的回调函数
+     */
+    function UploadBigImageComplete(){
+        var origin = $("#upload_img_iframe").contents().find("body").text();
+        var obj = JSON.parse(origin);
+        // 创建img标签，将图片添加到指定位置
+        if(obj.status){
+            // 创建img和input标签添加到
+            var prePosition = $('#big_detail_pre_img');
+            prePosition.empty();
+            var img = document.createElement('img');
+            img.src = obj.data;
+            var input = document.createElement('input');
+            input.style.display='none';
+            input.type='text';
+            input.name='img';
+            input.value = obj.data;
+            prePosition.append(img);
+            prePosition.append(input);
+        }else{
+            $.messager.alert('上传失败', obj.summary, 'error');
+        }
+
+    }
+    /*
+    上传图片简介完成后的回调函数
+     */
+    function UploadImageComplete(){
+        var origin = $("#upload_img_iframe").contents().find("body").text();
+        var obj = JSON.parse(origin);
+        // 创建img标签，将图片添加到指定位置
+        if(obj.status){
+            // 创建img和input标签添加到
+            var prePosition = $('#detail_pre_img');
+
+            var div = document.createElement('div');
+            div.className = 'detail-pre-img-item';
+            var img = document.createElement('img');
+            img.src = obj.data;
+            var input = document.createElement('input');
+            input.style.display='none';
+            input.type='text';
+            input.name='img_list';
+            input.value = obj.data;
+
+            $(div).append(img);
+            $(div).append(input);
+
+            prePosition.append(div);
+
+        }else{
+            $.messager.alert('上传失败', obj.summary, 'error');
+        }
+
+    }
+
+    function IntegrationData(){
+        var input_data_dict = {
+            'title':'',
+            'img': '',
+            'img_list': [],
+            'detail_list': []
+        };
+        $('#container').find('input[type="text"]').each(function(){
+            var n = $(this).attr('name');
+            var v = $(this).val();
+            if (n == 'img_list'){
+                var temp = {'src': v};
+                if (input_data_dict[n] == undefined){
+
+                    input_data_dict[n] = [temp];
+                }else{
+                    input_data_dict[n].push(temp);
+                }
+            }else if(n == 'detail_list') {
+                v = v.trim();
+                var list = v.split('+');
+                if(list.length==2){
+                    var temp = {'name': list[0], 'value': list[1]};
+                    if (input_data_dict[n] == undefined){
+                        input_data_dict[n] = [temp];
+                    }else{
+                        input_data_dict[n].push(temp);
+                    }
+                }
+            }else {
+                input_data_dict[n] = v;
+            }
+
+        });
+
+        input_data_dict['img_list'] = JSON.stringify(input_data_dict['img_list']);
+        input_data_dict['detail_list'] = JSON.stringify(input_data_dict['detail_list']);
+        return input_data_dict;
+    }
+
+    function DoSubmit(){
+        var input_dict = IntegrationData();
+
+        $.ajax({
+            url: 'JdProductEdit.html',
+            type: 'POST',
+            data: input_dict,
+            dataType: 'json',
+            success: function(data){
+                if(data.status){
+                    location.href = 'ProductManager.html'
+                }else{
+                    $.messager.alert('添加失败', data.summary, 'error');
+                }
+            }
+        })
+
+    }
+
+    function AddDetail(ths){
+        var tag = $(ths).next().clone();
+        $(tag).append('<i onclick="RemoveDetail(this);" class="remove-detail"> - </i>');
+        $(ths).parent().append(tag);
+
+    }
+
+    function RemoveDetail(ths){
+        $(ths).parent().remove();
+    }
+
+
+</script>
+{% end %}

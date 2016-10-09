@@ -1,0 +1,313 @@
+{% extends '../Layout/_Layout1.html'%}
+
+{% block css %}
+    <link href="/Statics/Web/Css/index.css" rel="stylesheet" />
+    <link href="/Statics/Web/Plugins/bxSlider/jquery.bxslider.css" rel="stylesheet" />
+{% end %}
+
+{% block menu_slider %}
+    <div class="header-menu">
+        <div class='container'>
+            <div id='nav_all_menu' class="menu-catagory">
+
+                <div class="catagory" float-content='one'>
+                    <div class="title">{{category_list[0]['caption']}}</div>
+                    <div class="body">
+                         {% for i in range(3)%}
+                            <a href="#">{{category_list[0]['data'][i]['caption']}}</a>
+                        {% end %}
+                    </div>
+                </div>
+
+
+                <div class="catagory" float-content='two'>
+                    <div class="title">{{category_list[1]['caption']}}</div>
+                    <div class="body">
+                        {% for i in range(3)%}
+                            <a href="#">{{category_list[1]['data'][i]['caption']}}</a>
+                        {% end %}
+                    </div>
+                </div>
+                <div class="catagory" float-content='three'>
+                    <div class="title">{{category_list[2]['caption']}}</div>
+                    <div class="body">
+                        {% for i in range(3)%}
+                            <a href="#">{{category_list[2]['data'][i]['caption']}}</a>
+                        {% end %}
+                    </div>
+                </div>
+            </div>
+            <div class="nav-allmenu_shadow"></div>
+            <div id='nav_all_content' class="menu-content">
+                <div class='item hide' float-id='one'>
+                    {% for i in category_list[0]['data'] %}
+                    <dl>
+                        <dt><a href="{{i['nid']}}" class="red">{{i['caption']}}</a></dt>
+                        <dd>
+                            {% for j in i['data'] %}
+                                <span>| <a href="{{j['nid']}}" target="_blank" title="{{j['caption']}}">{{j['caption']}}</a> </span>
+                            {% end %}
+
+                        </dd>
+                    </dl>
+                    {% end %}
+
+                </div>
+                <div class='item hide' float-id='two'>
+
+                    {% for i in category_list[1]['data'] %}
+                    <dl>
+                        <dt><a href="{{i['nid']}}" class="red">{{i['caption']}}</a></dt>
+                        <dd>
+                            {% for j in i['data'] %}
+                                <span>| <a href="{{j['nid']}}" target="_blank" title="{{j['caption']}}">{{j['caption']}}</a> </span>
+                            {% end %}
+
+                        </dd>
+                    </dl>
+                    {% end %}
+
+                </div>
+                <div class='item hide' float-id='three'>
+
+                    {% for i in category_list[2]['data'] %}
+                    <dl>
+                        <dt><a href="{{i['nid']}}" class="red">{{i['caption']}}</a></dt>
+                        <dd>
+                            {% for j in i['data'] %}
+                                <span>| <a href="{{j['nid']}}" target="_blank" title="{{j['caption']}}">{{j['caption']}}</a> </span>
+                            {% end %}
+
+                        </dd>
+                    </dl>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-slider" style="height: 315px;">
+        <ul class="bxslider">
+            <li><img src="/Statics/Web/Images/bxslider/1.png" /></li>
+            <li><img src="/Statics/Web/Images/bxslider/2.jpg" /></li>
+            <li><img src="/Statics/Web/Images/bxslider/3.jpg" /></li>
+        </ul>
+    </div>
+{% end %}
+
+
+
+{% block content %}
+
+<div class="pg-content clearfix" style="background: #faf6f7;">
+    <div class="container">
+
+        <div class="content-floor">
+            <div class="floor-header">
+                <div class=" left">
+                    <a class="floor floor-1" href="#" target="_blank"></a>
+                </div>
+                <div class=" right">
+                    <a class="more" href="#">更多新品</a>
+                </div>
+            </div>
+
+            <div class="floor-body">
+
+                {% for item in product_dict['super_new_list']%}
+                    <a class="item" href="/Detail-{{item['product_id']}}-{{item['nid']}}.html">
+                        <div class="img">
+                            <img src="/{{item['img']}}" />
+                        </div>
+                        <div class="content">
+                            <div class="brand">{{item['title']}}</div>
+                            <div class="price"><span class="red bold">{{item['selling_price']}}</span></div>
+                        </div>
+                    </a>
+                {% end %}
+
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+        <div class="content-floor">
+            <div class="floor-header">
+                <div class=" left">
+                    <a class="floor floor-2" href="#" target="_blank"></a>
+                </div>
+                <div class=" right">
+                    <a class="more" href="#">更多精品</a>
+                </div>
+            </div>
+            <div class="floor-body">
+
+                {% for item in product_dict['super_excellent_list']%}
+                    <a class="item" href="/Detail-{{item['product_id']}}-{{item['nid']}}.html">
+                        <div class="img">
+                            <img src="/{{item['img']}}" />
+                        </div>
+                        <div class="content">
+                            <div class="brand">{{item['title']}}</div>
+                            <div class="price"><span class="red bold">{{item['selling_price']}}</span></div>
+                        </div>
+                    </a>
+                {% end %}
+
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+
+        <div class="content-floor">
+            <div class="floor-header">
+                <div class=" left">
+                    <a class="floor floor-3" href="#" target="_blank"></a>
+                </div>
+                <div class=" right">
+                    <a class="more" href="#" >更多</a>
+                </div>
+            </div>
+            <div class="floor-body">
+
+                {% for item in product_dict['furniture']%}
+                    <a class="item" href="/Detail-{{item['product_id']}}-{{item['nid']}}.html">
+                        <div class="img">
+                            <img src="/{{item['img']}}" />
+                        </div>
+                        <div class="content">
+                            <div class="brand">{{item['title']}}</div>
+                            <div class="price"><span class="red bold">{{item['selling_price']}}</span></div>
+                        </div>
+                    </a>
+                {% end %}
+
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+
+        <div class="content-floor">
+            <div class="floor-header">
+                <div class=" left">
+                    <a class="floor floor-4" href="#" target="_blank"></a>
+                </div>
+                <div class=" right">
+                    <a class="more" href="#" >更多</a>
+                </div>
+            </div>
+            <div class="floor-body">
+
+
+                {% for item in product_dict['building_materials']%}
+                    <a class="item" href="/Detail-{{item['product_id']}}-{{item['nid']}}.html">
+                        <div class="img">
+                            <img src="/{{item['img']}}" />
+                        </div>
+                        <div class="content">
+                            <div class="brand">{{item['title']}}</div>
+                            <div class="price"><span class="red bold">{{item['selling_price']}}</span></div>
+                        </div>
+                    </a>
+                {% end %}
+
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+
+        <div class="content-floor">
+            <div class="floor-header">
+                <div class=" left">
+                    <a class="floor floor-5" href="#" target="_blank"></a>
+                </div>
+                <div class=" right">
+                    <a class="more" href="#" >更多</a>
+                </div>
+            </div>
+            <div class="floor-body">
+
+                {% for item in product_dict['decoration']%}
+                    <a class="item" href="/Detail-{{item['product_id']}}-{{item['nid']}}.html">
+                        <div class="img">
+                            <img src="/{{item['img']}}" />
+                        </div>
+                        <div class="content">
+                            <div class="brand">{{item['title']}}</div>
+                            <div class="price"><span class="red bold">{{item['selling_price']}}</span></div>
+                        </div>
+                    </a>
+                {% end %}
+
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% end %}
+
+
+{% block js %}
+<script src='/Statics/Web/Plugins/bxSlider/jquery.bxslider.min.js'></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.bxslider').bxSlider();
+
+        $("#predicate_menu").children().bind("mouseover", function () {
+            $menu = $(this);
+            $content = $("#predicate_content").find('div[content="' + $(this).attr("content") + '"]');
+            $menu.addClass('current').siblings().removeClass('current');
+            $content.removeClass('hide').siblings().addClass('hide');
+        });
+
+        all_menu();
+        //ChangeTab('#tab-menu-title', '#tab-menu-body');
+        Change_Menu('#nav_all_menu', '#nav_all_content');
+    });
+
+    function all_menu() {
+        $(".list").mouseover(function () {
+            $allmenu = $("#JS_side_cat_list_1");
+            $(this).addClass("hover");
+            $allmenu.addClass("hover").mouseover(function () {
+                $allmenu.addClass("hover");
+            });
+            $allmenu.mouseout(function () {
+                $(this).removeClass("hover");
+            });
+        });
+        $(".list").mouseout(function () {
+            $(this).removeClass("hover");
+        });
+    }
+
+    function ChangeTab(title, body) {
+        $(title).children().bind("click", function () {
+            $menu = $(this);
+            $content = $(body).find('div[content="' + $(this).attr("content-to") + '"]');
+            $menu.addClass('current').siblings().removeClass('current');
+            $content.removeClass('hide').siblings().addClass('hide');
+        });
+    }
+
+    function Change_Menu(menu, content) {
+        $menu = $(menu);
+        $content = $(content);
+        $menu.children().bind("mouseover", function () {
+            $item_content = $content.find('div[float-id="' + $(this).attr("float-content") + '"]');
+            $item_content.removeClass('hide').siblings().addClass('hide');
+        });
+        $menu.bind("mouseout", function () {
+            $content.children().addClass('hide');
+        });
+        $content.children().bind("mouseover", function () {
+            $(this).removeClass('hide');
+        });
+        $content.children().bind("mouseout", function () {
+            $(this).addClass('hide');
+        });
+    }
+</script>
+{% end %}
+
